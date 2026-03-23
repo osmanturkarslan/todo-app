@@ -152,3 +152,15 @@ Below is a preview of the TODO application interface:
 
 ### Mobile
 ![Mobile](./screenshot_mobil.png)
+
+---
+
+## Deployment
+
+Project deployed with github pages.
+
+---
+
+## Live
+
+URL: https://osmanturkarslan.github.io/todo-app/
