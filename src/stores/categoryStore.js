@@ -78,6 +78,32 @@ export const useCategoryStore = defineStore('categoryStore', {
       this.save()
     },
 
+    // Update category name
+updateCategory(id, newName) {
+  const name = newName?.trim()
+
+  // Prevent empty name
+  if (!name) return
+
+  // Prevent duplicates
+  const exists = this.categories.some(
+    c => c.id !== id && c.name.toLowerCase() === name.toLowerCase()
+  )
+
+  if (exists) {
+    alert('Kategorie existiert bereits')
+    return
+  }
+
+  // Find category
+  const cat = this.categories.find(c => c.id === id)
+
+  if (cat) cat.name = name
+
+  // Persist changes
+  this.save()
+},
+
     // Select / Unselect category for filtering
     selectCategory(id) {
       // If same category clicked again → remove filter

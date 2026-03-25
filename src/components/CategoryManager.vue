@@ -25,7 +25,8 @@ export default {
     return {
       newCategory: '',     // Text for new category input
       editingId: null,     // ID of category currently being edited
-      editingName: ''      // Temporary name while editing
+      editingName: '',    // Temporary name while editing
+      originalName: ''
     }
   },
 
@@ -47,17 +48,25 @@ export default {
     editCategory(id, name) {
       this.editingId = id
       this.editingName = name
+      this.originalName = name
     },
 
     // Save edited category name
     saveCategory(id) {
-      if (!this.editingName.trim()) return  // Prevent empty names
+      if (!this.editingName.trim()) {
+        this.cancelEdit() // If name is empty, cancel edit and revert to original name
+        return}  // Prevent empty names
 
       this.categoryStore.updateCategory(id, this.editingName)
 
       // Reset editing state
       this.editingId = null
       this.editingName = ''
+      this.originalName = ''
+    },
+    cancelEdit() {
+      this.editingName = this.originalName
+      this.editingId = null
     }
 
   }
@@ -90,6 +99,9 @@ export default {
             v-model="editingName"
             @keyup.enter="saveCategory(category.id)"
             class="edit-category"
+            @keyup.esc="cancelEdit"
+            @blur="saveCategory(category.id)"
+            @click.stop
           />
 
           <!-- Normal display -->
